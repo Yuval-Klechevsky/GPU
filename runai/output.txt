@@ -1,0 +1,170 @@
+1. Creating a Helm Chart.
+
+######################
+
+# helm create runai
+
+######################
+
+2. Editing Chart.yaml file.
+
+#########################################
+
+apiVersion: v2
+name: runai
+description: A Helm chart for RUN AI
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+#########################################
+
+3. Creating a namespace for RUN:AI.
+
+#########################################
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: runai-namespace
+
+#########################################
+
+4. Creating a RUN:AI Deployment file
+
+###########################################################################
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.runai.name }}
+  namespace: {{.Values.namespace}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.runai.name }}
+  template:
+    metadata:
+      labels:
+        nodeType: {{ .Values.runai.affinity.nodeType}}
+        app: {{ .Values.runai.name }}
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: {{ .Values.runai.affinity.key }}
+                  operator: {{ .Values.runai.affinity.operator }}
+                  values: {{ .Values.runai.affinity.nodeType }}
+        nodeType: {{ .Values.runai.affinity.nodeType }}
+      containers:
+      - name: {{ .Values.runai.containers.name }}
+        image: {{ .Values.image }}
+        resources:
+          limits:
+            nvidia.com/gpu: {{ .Values.gpu }}
+        imagePullPolicy: {{ .Values.runai.containers.imagePullPolicy }}
+        ports:
+          - containerPort: {{ .Values.runai.containers.containerPort }}
+      schedulerName: {{ .Values.runai.schedulerName }}   
+
+###########################################################################
+
+
+5. Creating a Service.
+
+################################################################
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.runai.service.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.runai.name }}
+spec:
+  type: {{ .Values.runai.service.type }}
+  ports:
+    - port: {{ .Values.runai.service.port }}
+      targetPort: {{ .Values.runai.service.targetPort }}
+  selector:
+    app: {{ .Values.runai.name }}
+
+################################################################
+
+6. Creating a Route.
+
+################################################################
+
+piVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ .Values.runai.route.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  host: {{ .Values.runai.route.host }}
+  port:
+    targetPort: {{ .Values.runai.service.targetPort }} 
+  to:
+    kind: Service
+    name: {{ .Values.runai.service.name }}
+
+################################################################
+
+7. Creating a Values.yaml ​​file.
+
+################################################################
+
+runai:
+  name: inference-workload
+
+  containers:
+        imagePullPolicy: Always
+        name: inference-workload
+        ports:
+        containerPort: 8080
+
+  schedulerName: runai-scheduler 
+
+  affinity: 
+    key: nodeType
+    operator: In
+    value: worker
+
+  service:
+    name: runai-service
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+    
+  route:
+    name: runai-route
+    host: runai-service-runai-namespace.apps.upgradedemo5.gpu-team-openshift.com
+
+
+
+replicaCount: 2
+namespace: runai-namespace
+image: http://gcr.io/run-ai-demo/quickstart
+gpu: 2
+nodeType: worker
+
+################################################################
+
+8. Installation and testing of the Deployment.
+
+####################################################################################
+
+# helm install inference-workload ./runai 
+# oc get deployment,pods  -n runai-namespace                                                                                
+
+NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/inference-workload   0/2     2            0           11h
+
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/inference-workload-6c86f7f6db-d7z8g   0/1     Pending   0          11h
+pod/inference-workload-6c86f7f6db-kfl6c   0/1     Pending   0          11h                                                                                
+
+####################################################################################

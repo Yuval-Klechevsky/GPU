@@ -4,7 +4,7 @@ In this task we need to Install the NVIDIA GPU Operator on version 22.9.1
 
 ## INSTALLATION WORKFLOW 
 
-** All the output represent in output.txt **
+** All the outputs in output.txt **
 
 1. Creating a new Namwspace.
 
