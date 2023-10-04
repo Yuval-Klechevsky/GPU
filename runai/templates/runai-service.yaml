@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.runai.service.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.runai.name }}
+spec:
+  type: {{ .Values.runai.service.type }}
+  ports:
+    - port: {{ .Values.runai.service.port }}
+      targetPort: {{ .Values.runai.service.targetPort }}
+  selector:
+    app: {{ .Values.runai.name }}

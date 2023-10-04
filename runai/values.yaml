@@ -1,0 +1,33 @@
+runai:
+  name: inference-workload
+
+  containers:
+    imagePullPolicy: Always
+    name: inference-workload
+    ports:
+      containerPort: 8080
+
+  schedulerName: runai-scheduler 
+
+  affinity: 
+    key: nodeType
+    operator: In
+    value: worker
+
+  service:
+    name: runai-service
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+    
+  route:
+    name: runai-route
+    host: runai-service-runai-namespace.apps.upgradedemo5.gpu-team-openshift.com
+
+
+
+replicaCount: 2
+namespace: runai-namespace
+image: gcr.io/run-ai-demo/quickstart
+gpu: 2
+nodeType: worker
