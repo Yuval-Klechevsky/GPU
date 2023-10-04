@@ -1,0 +1,41 @@
+1. Download NVIDIA DCGM Exporter.
+
+######################################################################################################
+
+#  curl -LfO https://github.com/NVIDIA/dcgm-exporter/raw/main/grafana/dcgm-exporter-dashboard.json
+
+######################################################################################################
+
+2. Creating a Configmap from the file we downloaded to openshift-config-managed.
+
+#################################################################################################################################
+
+# oc create configmap nvidia-dcgm-exporter-dashboard -n openshift-config-managed --from-file=dcgm-exporter-dashboard.json
+
+#################################################################################################################################
+
+3. Label Configmap to display Dashboard for admin and developer
+
+##############################################################################################################################
+
+# oc label configmap nvidia-dcgm-exporter-dashboard -n openshift-config-managed "console.openshift.io/dashboard=true"
+
+# oc label configmap nvidia-dcgm-exporter-dashboard -n openshift-config-managed "console.openshift.io/odc-dashboard=true"
+
+##############################################################################################################################
+
+4. Test to create a resource and test the creation of labels.
+
+#################################################################################################################################
+
+# oc -n openshift-config-managed get cm nvidia-dcgm-exporter-dashboard --show-labels                                                                                                                
+
+NAME                             DATA   AGE     LABELS
+
+nvidia-dcgm-exporter-dashboard   1      2m17s   console.openshift.io/dashboard=true,console.openshift.io/odc-dashboard=true
+
+#################################################################################################################################
+
+5. Displaying the Dashboard in the Openshift console.
+
+You can see on the README.
