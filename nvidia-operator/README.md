@@ -6,7 +6,7 @@ In this task we need to Install the NVIDIA GPU Operator on version 22.9.1
 
 ** All the outputs in output.txt **
 
-1. Creating a new Namwspace.
+1. Creating a new Namespace.
 
 2. Creating a new Operator Group.
 
@@ -25,3 +25,7 @@ In this task we need to Install the NVIDIA GPU Operator on version 22.9.1
 9. Running a simple GPU application.
 
 10. Getting information about the GPU
+
+### Docs
+
+[1]: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/22.9.1/openshift/install-gpu-ocp.html#installing-the-nvidia-gpu-operator-using-the-cli 
