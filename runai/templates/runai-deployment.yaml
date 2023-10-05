@@ -8,22 +8,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .Values.runai.name }}
-      nodeType: {{ .Values.runai.affinity.value }}
   template:
     metadata:
       labels:
-        nodeType: {{ .Values.runai.affinity.value }}
         app: {{ .Values.runai.name }}
+        user: {{ .Values.user }}
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: {{ .Values.runai.affinity.key }}
-                operator: {{ .Values.runai.affinity.operator }}
-                values: 
-                - {{ .Values.runai.affinity.value }}
       containers:
       - name: {{ .Values.runai.containers.name }}
         image: {{ .Values.image }}
@@ -33,4 +23,3 @@ spec:
         imagePullPolicy: {{ .Values.runai.containers.imagePullPolicy }}
         ports:
         - containerPort: {{ .Values.runai.containers.ports.containerPort }}
-      schedulerName: {{ .Values.runai.schedulerName }}   

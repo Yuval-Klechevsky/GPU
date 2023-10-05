@@ -5,29 +5,28 @@ runai:
     imagePullPolicy: Always
     name: inference-workload
     ports:
-      containerPort: 8080
+      containerPort: 80
 
-  schedulerName: runai-scheduler 
+  schedulerName: default 
 
   affinity: 
-    key: nodeType
-    operator: In
-    value: worker
+    key: "nodeType"
+    operator: Lt
+    value: "5"
 
   service:
     name: runai-service
     type: ClusterIP
-    port: 8080
-    targetPort: 8080
+    protocol: TCP
+    port: 80
+    targetPort: 80
     
   route:
     name: runai-route
     host: runai-service-runai-namespace.apps.upgradedemo5.gpu-team-openshift.com
 
-
-
 replicaCount: 2
 namespace: runai-namespace
 image: gcr.io/run-ai-demo/quickstart
-gpu: 2
-nodeType: worker
+gpu: 1
+user: yuval

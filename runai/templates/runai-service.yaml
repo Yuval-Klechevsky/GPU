@@ -10,5 +10,8 @@ spec:
   ports:
     - port: {{ .Values.runai.service.port }}
       targetPort: {{ .Values.runai.service.targetPort }}
+      protocol: {{ .Values.runai.service.protocol }}
   selector:
     app: {{ .Values.runai.name }}
+    user: {{ .Values.user }}
+

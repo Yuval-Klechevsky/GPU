@@ -158,13 +158,16 @@ nodeType: worker
 ####################################################################################
 
 # helm install inference-workload ./runai 
+
 # oc get deployment,pods  -n runai-namespace                                                                                
 
-NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/inference-workload   0/2     2            0           11h
+NAME                                                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/inference-workload                               2/2     2            2           91s
+deployment.apps/runai-ocp-cluster-installer-controller-manager   1/1     1            1           5h13m
 
-NAME                                      READY   STATUS    RESTARTS   AGE
-pod/inference-workload-6c86f7f6db-d7z8g   0/1     Pending   0          11h
-pod/inference-workload-6c86f7f6db-kfl6c   0/1     Pending   0          11h                                                                                
+NAME                                                                  READY   STATUS    RESTARTS   AGE
+pod/inference-workload-dc8d9f96f-47qb9                                1/1     Running   0          92s
+pod/inference-workload-dc8d9f96f-7b92z                                1/1     Running   0          92s
+pod/runai-ocp-cluster-installer-controller-manager-59bdf4d7c6-rk4hp   2/2     Running   0          5h13m                                                                               
 
 ####################################################################################
