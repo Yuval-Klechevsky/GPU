@@ -123,31 +123,10 @@ else
         fi
 
 
-        echo "Do you want to change for the Namespace? (Yes/NO)"
-        read Q_NAMESPACE
-
-        if [[ "$Q_NAMESPACE" == "Yes" || "$Q_NAMESPACE" == "YES" || "$Q_NAMESPACE" == "yes" ]] ;then
-            echo "Please enter your Namespace"
-            read NEW_NAMESPACE
-        else
-            NAMESPACE=$(grep name  ~/gpu/resource-quotas/test.yaml | tail -2 | head -2 | tail -1 | awk '{print $2}' |tr -d \")
-        fi
-
-        if [  "$NEW_NAMESPACE" != "$NAMESPACE" ]; then
-            if [[ $(oc get project | awk '{print $1}' | grep "$NEW_NAMESPACE") =~ ^$  ]]; then
-                echo "The Namespace is not exist , it on creating"
-                oc new-project "$NEW_NAMESPACE" 
-                echo "The Namespace "$NEW_NAMESPACE" is successfully created \n"
-            fi
-        else
-            echo "THE Namespace/project "$NEW_NAMESPACE" is already created, You can countine"
-        fi
-
 
         # Change to the new values
 
         sed -e "s/metadata.name:.*/metadata.name: \"${NEW_QUOTA_NAME}\"/g"  \
-        -e "s/metadata.namespace:.*/metadata.namespace: \"${NEW_NAMESPACE}\"/g" \
         -e "s/requests.memory:.*/requests.memory: \"${REQUEST_MEMORY}\"/g" \
         -e "s/requests.cpu:.*/requests.cpu: \"${REQUEST_CPU}\"/g" \
         -e "s/limits.cpu:.*/limits.cpu: \"${LIMIT_CPU}\"/g" \
