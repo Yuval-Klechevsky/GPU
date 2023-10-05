@@ -28,4 +28,4 @@ In this task we need to Install the NVIDIA GPU Operator on version 22.9.1
 
 ### Docs
 
-[1]: https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/22.9.1/openshift/install-gpu-ocp.html#installing-the-nvidia-gpu-operator-using-the-cli 
+https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/22.9.1/openshift/install-gpu-ocp.html#installing-the-nvidia-gpu-operator-using-the-cli 

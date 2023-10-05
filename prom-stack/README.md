@@ -21,4 +21,4 @@ In this task we need to Use OpenShift’s Prom Stack to populate a basic GPU uti
 
 ### DOCS
 
-[1]: https://docs.nvidia.com/datacenter/cloud-native/openshift/latest/enable-gpu-monitoring-dashboard.html
+https://docs.nvidia.com/datacenter/cloud-native/openshift/latest/enable-gpu-monitoring-dashboard.html
