@@ -9,11 +9,6 @@ runai:
 
   schedulerName: default 
 
-  affinity: 
-    key: "nodeType"
-    operator: Lt
-    value: "5"
-
   service:
     name: runai-service
     type: ClusterIP
@@ -23,7 +18,6 @@ runai:
     
   route:
     name: runai-route
-    host: runai-service-runai-namespace.apps.upgradedemo5.gpu-team-openshift.com
 
 replicaCount: 2
 namespace: runai-namespace

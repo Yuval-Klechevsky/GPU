@@ -4,7 +4,6 @@ metadata:
   name: {{ .Values.runai.route.name }}
   namespace: {{ .Values.namespace }}
 spec:
-  host: {{ .Values.runai.route.host }}
   port:
     targetPort: {{ .Values.runai.service.targetPort }} 
   to:
